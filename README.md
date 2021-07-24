@@ -2,8 +2,6 @@
 
 This repository contains a few useful shell commands.
 
-${toc}
-
 ## batc
 A utility command to enable/disable battery conservation mode on Lenovo Ideapad laptops.
 
