@@ -1,0 +1,70 @@
+#!/bin/sh
+
+DEFAULT_TARGET="/sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode"
+: "${CONSERVATION_MODE:=$DEFAULT_TARGET}"
+
+vecho() {
+    if [ ${VERBOSE:-0} -eq 1 ]; then
+        echo $1
+    fi
+}
+
+modereadl() {
+    vecho "Reading status from $CONSERVATION_MODE"
+}
+
+moderead() {
+    cat $CONSERVATION_MODE
+}
+
+modeset() {
+    vecho "Setting mode $1 to $CONSERVATION_MODE"
+    echo $1 > $CONSERVATION_MODE
+}
+
+runhelp() {
+    cat << EOF
+Usage: $0 [options]
+  -h    print this usage and exit
+  -r    (default) read battery conservation mode status
+  -t    toggle battery conservation mode
+  -d    deactivate battery conservation mode
+  -a    activate battery conservation mode
+
+Set the environment variable CONSERVATION_MODE to set which file to read to. Defaults to $DEFAULT_TARGET.
+EOF
+}
+
+while getopts ":vhtadr" opt; do
+    case $opt in
+        v)
+            VERBOSE=1
+            ;;
+        t)
+            vecho "Toggling battery conservation mode..."
+            modereadl
+            modeset $((1 - $(moderead)))
+            ;;
+        a)
+            vecho "Activating battery conservation mode..."
+            modeset 1
+            exit
+            ;;
+        d)
+            vecho "Deactivating battery conservation mode..."
+            modeset 0
+            exit
+            ;;
+        h)
+            runhelp
+            exit
+            ;;
+        \?)
+            echo "Unknown option: -$OPTARG" >&2
+            exit 128
+            ;;
+    esac
+done
+
+modereadl
+moderead
