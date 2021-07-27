@@ -1,5 +1,25 @@
 # Dual booting Windows and Linux - Notes
 
+## Timezone differences between Windows and Linux
+
+By default, Windows stores time in the local timezone on hardware while Linux storse time in UTC on hardware.
+
+[Windows may misbehave if forced to store time in UTC on
+hardware.](https://www.howtogeek.com/323390/how-to-fix-windows-and-linux-showing-different-times-when-dual-booting/)
+Hence, the recommended solution is to adjust Linux to store local time on hardware by issuing the command.
+```
+timedatectl set-local-rtc 1 --adjust-system-clock
+```
+
+This can be verified by running `timedatectl`.
+
+To undo this change, do
+```
+imedatectl set-local-rtc 0 --adjust-system-clock
+```
+
+
+
 ## WiFi not being enabled when booting Linux after booting Windows
 
 1. Boot into Windows
