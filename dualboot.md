@@ -78,3 +78,13 @@ done in Windows (instead of a full shutdown).
 UUID=xxxxxxxxx   /mnt/c    ntfs-3g auto,noexec,rw   0       2
 ```
 
+## Hibernation
+
+When setting up hibernation, [these instructions](https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation) should be carried out.
+
+Note that the system may sometimes immediately wake up after hibernation. Ensure that the following is present inside `/etc/systemd/sleep.conf.d/hibernatemode.conf`:
+```
+[Sleep]
+HibernateMode=shutdown
+```
+
