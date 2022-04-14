@@ -15,7 +15,7 @@ This can be verified by running `timedatectl`.
 
 To undo this change, do
 ```
-imedatectl set-local-rtc 0 --adjust-system-clock
+timedatectl set-local-rtc 0 --adjust-system-clock
 ```
 
 
